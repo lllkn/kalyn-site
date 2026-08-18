@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="鲁凯宁 Kalyn 的个人网站，记录 AI、软件项目、创作与生活。">
+    <meta name="author" content="鲁凯宁 Kalyn">
+    <meta name="theme-color" content="#f5f7f4">
+    <title>鲁凯宁 Kalyn</title>
+    <link rel="shortcut icon" href="/site/images/favicon.ico" type="image/x-icon">
+
+    <!-- style -->
+    <link href="/site/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/site/css/style.min.css" rel="stylesheet" type="text/css">
+    <link href="//cdn.bootcss.com/highlight.js/9.9.0/styles/xcode.min.css" rel="stylesheet"/>
+
+    <!-- bootstrap -->
+    <link href="/site/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- responsive -->
+    <link href="/site/css/responsive.css" rel="stylesheet" type="text/css">
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" type="text/css" href="/site/jquery/font-awesome.4.6.0.css">
+
+    <!-- effects -->
+    <link href="/site/css/effects/set2.css" rel="stylesheet" type="text/css">
+    <link href="/site/css/effects/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/site/css/effects/component.css" rel="stylesheet" type="text/css">
+    <link href="/site/css/portfolio.css" rel="stylesheet" type="text/css">
+    <noscript><style>
+        .hero .eyebrow,.hero-role,.hero-intro,.hero-actions,
+        .interest-cloud span,.capability-list span{opacity:1!important;transform:none!important;translate:0 0!important}
+        .hero h1 .h1-line>span{transform:none!important}
+    </style></noscript>
+    <style>
+        .project-media-grid {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            background: #1a2522;
+        }
+        .project-media-grid .thumb {
+            position: relative;
+            overflow: hidden;
+            background: #dde4df;
+        }
+        .project-media-grid .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+        .project-media-grid .thumb:first-child { grid-row: span 2; }
+        .project-media-grid .thumb:hover img { transform: scale(1.06); }
+        .project-media-grid .thumb-more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(23, 32, 29, 0.92);
+            color: #fff;
+            font: 600 11px "Manrope", sans-serif;
+            letter-spacing: 0.1em;
+        }
+        .project-media-grid .thumb-more strong {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* ===== 3D Coverflow 轮播 ===== */
+        .kalyn-projects:not(.is-open) {
+            perspective: 1400px;
+            height: 520px;
+            padding: 30px 0 56px;
+            cursor: grab;
+        }
+        .kalyn-projects:not(.is-open).is-dragging { cursor: grabbing; }
+        .kalyn-projects:not(.is-open) .project-card {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 46%;
+            margin: 0 !important;
+            opacity: var(--card-opacity, 1);
+            z-index: var(--card-z, 1);
+            transform: translate3d(var(--card-x, 50%), 0, 0)
+                scale(var(--card-scale, 1))
+                rotateY(var(--card-rotate-y, 0deg));
+            transform-origin: center center;
+            will-change: transform, opacity;
+            pointer-events: none;
+            transition: transform 0.68s cubic-bezier(0.34, 1.38, 0.5, 1),
+                opacity 0.5s ease, box-shadow 0.3s ease;
+        }
+        .kalyn-projects:not(.is-open).is-dragging .project-card {
+            transition: none;
+        }
+        .kalyn-projects:not(.is-open) .project-card[aria-current="true"] {
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        .kalyn-projects:not(.is-open) .project-card.is-nearby {
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        /* 覆盖 portfolio.css 旧 hover 规则：保留轮播定位变量，避免卡片跳位闪动 */
+        .kalyn-projects:not(.is-open) .project-card:hover,
+        .kalyn-projects:not(.is-open) .project-card:focus-visible {
+            transform: translate3d(var(--card-x, 50%), 0, 0)
+                scale(var(--card-scale, 1))
+                rotateY(var(--card-rotate-y, 0deg));
+            box-shadow: 0 22px 44px rgba(23, 32, 29, 0.14);
+        }
+        .kalyn-projects:not(.is-open) .project-card.is-nearby:hover,
+        .kalyn-projects:not(.is-open) .project-card.is-nearby:focus-visible {
+            z-index: 25;
+            transform: translate3d(var(--card-x, 50%), -8px, 40px)
+                scale(calc(var(--card-scale, 1) * 1.05))
+                rotateY(calc(var(--card-rotate-y, 0deg) * 0.6));
+            box-shadow: 0 30px 60px rgba(23, 32, 29, 0.22);
+        }
+        .kalyn-projects:not(.is-open) .project-card[aria-current="true"]:hover {
+            transform: translate3d(var(--card-x, 50%), -10px, 60px)
+                scale(calc(var(--card-scale, 1) * 1.03))
+                rotateY(var(--card-rotate-y, 0deg));
+            box-shadow: 0 36px 70px rgba(23, 32, 29, 0.22);
+        }
+        .kalyn-projects:not(.is-open) .project-media {
+            aspect-ratio: 5 / 4;
+        }
+        .kalyn-projects:not(.is-open) .project-info {
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0;
+            opacity: 0;
+            background: #f7f9f6;
+            transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.3s ease;
+        }
+        .kalyn-projects:not(.is-open) .project-card[aria-current="true"]:after {
+            content: "VIEW";
+            position: absolute;
+            right: 16px;
+            bottom: 14px;
+            z-index: 4;
+            padding: 7px 10px;
+            border: 1px solid var(--ink);
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* 指示点 */
+        .carousel-dots {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 40;
+        }
+        .carousel-dots button {
+            width: 8px;
+            height: 8px;
+            padding: 0;
+            border: 1px solid var(--muted);
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            transition: width 0.35s cubic-bezier(0.34, 1.38, 0.5, 1),
+                background 0.3s ease, border-color 0.3s ease;
+        }
+        .carousel-dots button.is-active {
+            width: 30px;
+            border-radius: 4px;
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* 自动播放进度条 */
+        .carousel-progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(23, 32, 29, 0.08);
+            z-index: 40;
+            overflow: hidden;
+        }
+        .carousel-progress-bar span {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--yellow));
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+        .carousel-progress-bar.is-playing span {
+            animation: carouselProgress 2.6s linear forwards;
+        }
+        @keyframes carouselProgress {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @media (max-width: 800px) {
+            .kalyn-projects:not(.is-open) { height: 420px; }
+            .kalyn-projects:not(.is-open) .project-card { width: 72%; }
+        }
+    </style>
+</head>
+<body class="portfolio-page">
+
+<header class="site-header" id="site-header" lang="zh-CN">
+    <div class="site-shell header-inner">
+        <a class="wordmark" href="/" aria-label="鲁凯宁首页"><span>KL</span> Kalyn</a>
+        <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false"><span></span><span></span></button>
+        <nav class="site-nav" aria-label="主导航">
+            <a data-zh="作品" data-en="Work" href="/#work">作品</a>
+            <a data-zh="文章" data-en="Journal" href="/#journal">文章</a>
+            <a data-zh="生活" data-en="Life" href="/#life">生活</a>
+            <a data-zh="关于" data-en="About" href="/#profile">关于</a>
+            <button class="language-toggle" type="button" aria-label="Switch to English"><span>中</span><i></i><span>EN</span></button>
+            <a class="nav-contact" data-zh="联系" data-en="Contact" href="/#contact">联系</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas><div class="hero-grid" aria-hidden="true"></div>
+        <div class="memphis-shape shape-dots" aria-hidden="true"></div>
+        <div class="site-shell hero-inner">
+            <div class="hero-copy reveal">
+                <p class="eyebrow"><span class="status-dot"></span><span>正在探索 AI 与有趣事物的边界</span></p>
+                <h1 id="hero-title"><span class="h1-line"><span>鲁凯宁 Kalyn</span></span></h1>
+                <p class="hero-role">计算机学生 &amp; 创意实践者</p>
+                <p class="hero-intro">西安交通大学计算机专业大三学生。热爱 AI 技术，也热爱旅行、写作、手工和游戏。我想做的不只是能运行的程序，更是带着个人温度的作品。</p>
+                <div class="hero-actions"><a class="button button-primary" href="#work"><span data-zh="看看我做的" data-en="See my work">看看我做的</span> <i class="fa fa-arrow-down"></i></a><a class="button button-quiet" href="mailto:1522027351@qq.com" data-zh="和我聊聊" data-en="Say hello">和我聊聊</a></div>
+            </div>
+            <div class="hero-meta reveal reveal-delay"><div><span>学校</span><strong>Xi'an Jiaotong University</strong></div><div><span>方向</span><strong>AI / Software / Ideas</strong></div><div><span>状态</span><strong>大三 · 持续创造中</strong></div></div>
+        </div>
+        <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <div class="hero-marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>CODE <i>·</i> 写作 WRITING <i>·</i> 旅行 TRAVEL <i>·</i> 手工 CRAFTS <i>·</i> 游戏 GAMES <i>·</i> AI <i>·</i> 生活 LIFE <i>·</i>&nbsp;</span><span>CODE <i>·</i> 写作 WRITING <i>·</i> 旅行 TRAVEL <i>·</i> 手工 CRAFTS <i>·</i> 游戏 GAMES <i>·</i> AI <i>·</i> 生活 LIFE <i>·</i>&nbsp;</span>
+        </div>
+    </div>
+
+    <section class="profile-section" id="profile"><div class="site-shell profile-grid">
+        <div class="identity-block reveal">
+            <div class="spine-showcase" id="spine-showcase" role="img" aria-label="鲁凯宁的创作与生活动画">
+                <canvas id="spine-canvas" aria-hidden="true"></canvas>
+                <div class="spine-fallback" aria-hidden="true"><span>KL</span></div>
+                <div class="spine-scene-meter" aria-hidden="true"><i class="is-active"></i><i></i><i></i><i></i></div>
+            </div>
+            <p class="spine-caption"><span data-zh="此刻场景" data-en="Now playing">此刻场景</span><strong id="spine-scene-name">CODING</strong></p>
+        </div>
+        <div class="profile-copy reveal"><p class="section-index">01 / WHO I AM</p><h2>好奇心，是我做事的起点。</h2><p class="profile-lead">成绩优异的计算机学生，也是一个对世界保持感受力的人。</p><p>我享受把新技术变成具体作品的过程：从构思、设计到实现，也愿意慢下来写点文字、做点手工、去陌生地方走走。技术是我的工具，而真实、有趣和创造力是我希望作品留下的东西。</p><div class="capability-list"><span>Artificial Intelligence</span><span>Software Engineering</span><span>Game Development</span><span>Creative Writing</span></div></div>
+    </div></section>
+
+    <section class="work-section" id="work"><div class="site-shell">
+        <div class="work-heading reveal"><div><p class="section-index">02 / THINGS I MADE</p><h2 data-zh="我的项目，不止一种形状。" data-en="My projects take many forms.">我的项目，不止一种形状。</h2></div><div class="work-controls"><p data-zh="从游戏、学习工具到陪伴型软件与个人网站。" data-en="Games, learning tools, companion software and personal websites.">从游戏、学习工具到陪伴型软件与个人网站。</p><div class="stack-actions"><button class="stack-step stack-prev" type="button" aria-label="上一个项目"><i class="fa fa-arrow-left"></i></button><span class="stack-progress"><b>01</b> / 04</span><button class="stack-step stack-next" type="button" aria-label="下一个项目"><i class="fa fa-arrow-right"></i></button><button class="stack-toggle" type="button" aria-expanded="false"><i class="fa fa-th-large" aria-hidden="true"></i><span data-zh="展开全部" data-en="Expand all">展开全部</span></button></div></div></div>
+        <div class="project-grid kalyn-projects">
+            <article class="project-card reveal" tabindex="0" data-project="1" data-link="https://qisheg.netlify.app"><div class="project-media project-art game-art"><img class="project-image" src="/site/images/work/qisheng.jpg" alt="栖声"/><span class="project-number">01</span></div><div class="project-info"><div><h3>栖声</h3><p>白噪音合成器</p></div><span>AUDIO</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="2" data-link="https://baicaoxing12.netlify.app/"><div class="project-media project-art game-art"><img class="project-image" src="/site/images/work/baicaoxing.jpg" alt="百草行"/><span class="project-number">02</span></div><div class="project-info"><div><h3>百草行</h3><p>古风田园游戏</p></div><span>GAME</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="3"><div class="project-media project-art game-art"><div class="project-media-grid"><div class="thumb"><img src="/site/images/work/game-1-find.jpg" alt="Find the Culprit"/></div><div class="thumb"><img src="/site/images/work/game-2-tile.jpg" alt="Tile Match"/></div><div class="thumb"><img src="/site/images/work/game-3-cat.jpg" alt="Find the Cats"/></div><div class="thumb"><img src="/site/images/work/game-4-tile3.jpg" alt="Tile Journey"/></div><div class="thumb"><img src="/site/images/work/game-5-marble.jpg" alt="Marble Run"/></div><div class="thumb thumb-more"><strong>+1</strong><span>MORE</span></div></div><span class="project-number">03</span></div><div class="project-info"><div><h3>休闲游戏集</h3><p>实习项目 · 5 款休闲游戏</p></div><span>GAME</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="4"><div class="project-media project-art desktop-art"><img class="project-image" src="/site/images/work/momo.jpg" alt="默默桌宠"/><span class="project-number">04</span></div><div class="project-info"><div><h3>默默</h3><p>桌宠软件</p></div><span>DESKTOP</span></div></article>
+            <button class="project-close" type="button" aria-label="关闭项目详情"><i class="fa fa-times"></i></button>
+        </div>
+    </div></section>
+
+    <section class="journal-section" id="journal"><div class="site-shell journal-layout"><div class="section-heading reveal"><p class="section-index">03 / JOURNAL</p><h2>最近写下的东西。</h2><p>项目进展、技术笔记和生活片段，都从这里继续。</p><a class="journal-more" href="#journal">查看全部文章 <i class="fa fa-arrow-right"></i></a></div><div class="journal-list"><a class="journal-item reveal" href="#journal"><span class="journal-date">AUG 18, 2026</span><h3>个人网站纯前端部署与视觉调优</h3><span class="journal-arrow"><i class="fa fa-arrow-right"></i></span></a><a class="journal-item reveal" href="#journal"><span class="journal-date">AUG 15, 2026</span><h3>百草行：UI 美术交接文档编写</h3><span class="journal-arrow"><i class="fa fa-arrow-right"></i></span></a><a class="journal-item reveal" href="#journal"><span class="journal-date">AUG 13, 2026</span><h3>Bubble Pop Phase 3 编辑器优化</h3><span class="journal-arrow"><i class="fa fa-arrow-right"></i></span></a></div></div></section>
+
+    <section class="life-section" id="life"><div class="site-shell life-layout"><div class="section-heading reveal"><p class="section-index">04 / OFF THE SCREEN</p><h2>屏幕之外，生活正在发生。</h2></div><div class="interest-cloud reveal"><span>旅行 Travel</span><span>写作 Writing</span><span>手工 Crafts</span><span>游戏 Games</span><span>摄影 Photography</span><span>阅读 Reading</span></div><blockquote class="reveal">"我希望这里记录的不只是结果，也有那些路上的灵感、笨拙尝试和真实喜欢。"</blockquote></div></section>
+
+    <section class="experience-section"><div class="site-shell experience-row reveal"><div><p class="section-index">05 / EXPERIENCE</p><h2>一段实习，更多实践。</h2></div><div class="experience-note"><span>INTERNSHIP · 01</span><p>已有一段实习经历，详细内容将在简历整理后补充。</p></div></div></section>
+
+    <section class="contact-section" id="contact"><div class="site-shell contact-inner reveal"><p class="section-index">06 / SAY HELLO</p><h2>交换想法，或者一起做点有趣的。</h2><p>关于 AI、项目、游戏，或者旅行途中的好故事，都欢迎来信。</p><a class="contact-link" href="mailto:1522027351@qq.com">1522027351@qq.com</a><br><a class="contact-link contact-github" href="https://github.com/lllkn" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i> github.com/lllkn</a></div></section>
+</main>
+
+<footer class="site-footer" lang="zh-CN">
+    <div class="site-shell footer-inner">
+        <div><a class="wordmark footer-mark" href="/"><span>KL</span> Kalyn</a><p data-zh="记录代码、灵感与生活。" data-en="Code, ideas, and a life in progress.">记录代码、灵感与生活。</p></div>
+        <div class="footer-links">
+            <a href="/#work" data-zh="作品" data-en="Work">作品</a><a href="/#journal" data-zh="文章" data-en="Journal">文章</a><a href="/#life" data-zh="生活" data-en="Life">生活</a><a href="/#profile" data-zh="关于" data-en="About">关于</a>
+        </div>
+    </div>
+    <div class="site-shell footer-bottom"><p>&copy; <span id="current-year">2026</span> 鲁凯宁 Kalyn</p><p>Made with curiosity in Xi'an.</p></div>
+    <script src="/site/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/site/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/site/js/custom.js" type="text/javascript"></script>
+    <script src="/site/js/vendor/three.min.js" type="text/javascript"></script>
+    <script src="/site/js/portfolio.js" type="text/javascript"></script>
+</footer>
+
+</body>
+</html>
