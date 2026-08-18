@@ -447,10 +447,10 @@
     var spineCanvas = document.getElementById('spine-canvas');
     if (spineShowcase && spineCanvas) {
         var spineScenes = [
-            { name: 'CODING', jsonUrl: '/site/spine/coding/animation.json', atlasUrl: '/site/spine/coding/animation.atlas', textureUrl: '/site/spine/coding/animation.webp' },
-            { name: 'TRAVEL', jsonUrl: '/site/spine/travel/animation.json', atlasUrl: '/site/spine/travel/animation.atlas', textureUrl: '/site/spine/travel/animation.webp' },
-            { name: 'READING', jsonUrl: '/site/spine/read/animation.json', atlasUrl: '/site/spine/read/animation.atlas', textureUrl: '/site/spine/read/animation.webp' },
-            { name: 'CRAFT', jsonUrl: '/site/spine/craft/animation.json', atlasUrl: '/site/spine/craft/animation.atlas', textureUrl: '/site/spine/craft/animation.webp' }
+            { name: 'CODING', jsonUrl: 'site/spine/coding/animation.json', atlasUrl: 'site/spine/coding/animation.atlas', textureUrl: 'site/spine/coding/animation.webp' },
+            { name: 'TRAVEL', jsonUrl: 'site/spine/travel/animation.json', atlasUrl: 'site/spine/travel/animation.atlas', textureUrl: 'site/spine/travel/animation.webp' },
+            { name: 'READING', jsonUrl: 'site/spine/read/animation.json', atlasUrl: 'site/spine/read/animation.atlas', textureUrl: 'site/spine/read/animation.webp' },
+            { name: 'CRAFT', jsonUrl: 'site/spine/craft/animation.json', atlasUrl: 'site/spine/craft/animation.atlas', textureUrl: 'site/spine/craft/animation.webp' }
         ];
         var spineContext = spineCanvas.getContext('2d', { alpha: true });
         var spineCaption = document.getElementById('spine-scene-name');
