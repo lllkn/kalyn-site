@@ -6,16 +6,32 @@
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var languageToggle = document.querySelector('.language-toggle');
 
+    function updateNavigationLabel() {
+        if (!toggle) return;
+        var isEnglish = document.documentElement.dataset.language === 'en';
+        var open = document.body.classList.contains('nav-open');
+        toggle.setAttribute('aria-label', isEnglish ? (open ? 'Close navigation' : 'Open navigation') : (open ? '关闭导航' : '打开导航'));
+    }
+
     function setLanguage(language) {
         var isEnglish = language === 'en';
         document.documentElement.lang = isEnglish ? 'en' : 'zh-CN';
-        document.documentElement.dataset.language = language;
+        document.documentElement.dataset.language = isEnglish ? 'en' : 'zh';
         document.querySelectorAll('[data-zh][data-en]').forEach(function (element) {
             element.textContent = element.getAttribute(isEnglish ? 'data-en' : 'data-zh');
         });
+        ['aria-label', 'alt', 'content'].forEach(function (attribute) {
+            document.querySelectorAll('[data-' + attribute + '-zh][data-' + attribute + '-en]').forEach(function (element) {
+                element.setAttribute(attribute, element.getAttribute('data-' + attribute + (isEnglish ? '-en' : '-zh')));
+            });
+        });
+        document.querySelectorAll('.project-card').forEach(function (card) {
+            card.setAttribute('data-view-label', isEnglish ? 'VIEW' : '查看');
+        });
+        updateNavigationLabel();
         if (languageToggle) {
             languageToggle.classList.toggle('is-en', isEnglish);
-            languageToggle.setAttribute('aria-label', isEnglish ? '切换到中文' : 'Switch to English');
+            languageToggle.setAttribute('aria-label', isEnglish ? 'Switch to Chinese' : '切换到英文');
         }
         try { localStorage.setItem('kalyn-language', language); } catch (error) { /* Storage may be disabled. */ }
     }
@@ -128,12 +144,13 @@
         toggle.addEventListener('click', function () {
             var open = document.body.classList.toggle('nav-open');
             toggle.setAttribute('aria-expanded', String(open));
-            toggle.setAttribute('aria-label', open ? '关闭导航' : '打开导航');
+            updateNavigationLabel();
         });
         document.querySelectorAll('.site-nav a').forEach(function (link) {
             link.addEventListener('click', function () {
                 document.body.classList.remove('nav-open');
                 toggle.setAttribute('aria-expanded', 'false');
+                updateNavigationLabel();
             });
         });
     }
@@ -157,7 +174,9 @@
         projectCards.forEach(function (_, index) {
             var dot = document.createElement('button');
             dot.type = 'button';
-            dot.setAttribute('aria-label', '跳转到项目 ' + (index + 1));
+            dot.setAttribute('data-aria-label-zh', '跳转到项目 ' + (index + 1));
+            dot.setAttribute('data-aria-label-en', 'Go to project ' + (index + 1));
+            dot.setAttribute('aria-label', (document.documentElement.dataset.language === 'en' ? 'Go to project ' : '跳转到项目 ') + (index + 1));
             dot.addEventListener('click', function (e) {
                 e.stopPropagation();
                 goToProject(index);
@@ -281,6 +300,8 @@
         window.clearTimeout(shareNoticeTimer);
         shareNotice.textContent = '';
         var message = document.createElement('p');
+        message.setAttribute('data-zh', copied ? '网盘链接和提取码已复制。' : '自动复制未成功，请手动复制以下下载信息。');
+        message.setAttribute('data-en', copied ? 'Download link and access code copied.' : 'Please copy the download details below.');
         message.textContent = copied
             ? (isEnglish ? 'Download link and access code copied.' : '网盘链接和提取码已复制。')
             : (isEnglish ? 'Please copy the download details below.' : '自动复制未成功，请手动复制以下下载信息。');
@@ -289,6 +310,8 @@
             var field = document.createElement('textarea');
             field.value = shareText;
             field.readOnly = true;
+            field.setAttribute('data-aria-label-zh', '下载链接与提取码');
+            field.setAttribute('data-aria-label-en', 'Download details');
             field.setAttribute('aria-label', isEnglish ? 'Download details' : '下载链接与提取码');
             shareNotice.appendChild(field);
             field.focus();
@@ -298,6 +321,8 @@
         openLink.href = card.getAttribute('data-share-url');
         openLink.target = '_blank';
         openLink.rel = 'noopener';
+        openLink.setAttribute('data-zh', '打开百度网盘 ↗');
+        openLink.setAttribute('data-en', 'Open Baidu Netdisk ↗');
         openLink.textContent = isEnglish ? 'Open Baidu Netdisk ↗' : '打开百度网盘 ↗';
         shareNotice.appendChild(openLink);
         shareNotice.classList.add('is-visible');
@@ -307,9 +332,10 @@
     }
 
     async function copyProjectShare(card) {
-        var shareText = '通过网盘分享的文件：' + card.getAttribute('data-share-file')
-            + '\n链接: ' + card.getAttribute('data-share-url')
-            + '\n提取码: ' + card.getAttribute('data-share-code');
+        var isEnglish = document.documentElement.dataset.language === 'en';
+        var shareText = (isEnglish ? 'Shared file: ' : '通过网盘分享的文件：') + card.getAttribute('data-share-file')
+            + (isEnglish ? '\nLink: ' : '\n链接: ') + card.getAttribute('data-share-url')
+            + (isEnglish ? '\nAccess code: ' : '\n提取码: ') + card.getAttribute('data-share-code');
         var copied = false;
         try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
