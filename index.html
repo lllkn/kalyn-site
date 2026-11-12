@@ -27,7 +27,7 @@
     <link href="site/css/effects/set2.css" rel="stylesheet" type="text/css">
     <link href="site/css/effects/normalize.css" rel="stylesheet" type="text/css">
     <link href="site/css/effects/component.css" rel="stylesheet" type="text/css">
-    <link href="site/css/portfolio.css" rel="stylesheet" type="text/css">
+    <link href="site/css/portfolio.css?v=20261112-share1" rel="stylesheet" type="text/css">
     <noscript><style>
         .hero .eyebrow,.hero-role,.hero-intro,.hero-actions,
         .interest-cloud span,.capability-list span{opacity:1!important;transform:none!important;translate:0 0!important}
@@ -213,6 +213,46 @@
             .kalyn-projects:not(.is-open) { height: 420px; }
             .kalyn-projects:not(.is-open) .project-card { width: 72%; }
         }
+
+        /* Project updates: cover labels stay visible in the existing carousel. */
+        .project-media .project-award,
+        .project-media .project-cover-title {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 22px;
+            z-index: 3;
+            width: fit-content;
+            max-width: calc(100% - 36px);
+            margin: 0;
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(23, 32, 29, 0.9);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        .project-media .project-award { top: 18px; left: 72px; bottom: auto; max-width: calc(100% - 90px); color: #f4dc91; }
+        .project-media .project-cover-title { font-size: 20px; }
+        .kalyn-projects:not(.is-open).is-detail { height: 680px; }
+        .kalyn-projects.is-detail .project-card[aria-current="true"] .project-info {
+            max-height: none;
+            padding: 18px 12px 14px;
+            opacity: 1;
+        }
+        .kalyn-projects.is-detail .project-info p { line-height: 1.7; }
+        .experience-row { align-items: start; }
+        .experience-heading-line { display: block; }
+        .experience-list { display: grid; gap: 28px; min-width: 0; }
+        .experience-note h3 { margin: 12px 0 0; font-size: 21px; line-height: 1.5; }
+        .experience-note .experience-role { margin-top: 6px; color: var(--ink); font-weight: 600; }
+        .experience-note p { line-height: 1.8; }
+        @media (max-width: 800px) {
+            .project-media .project-award { left: 66px; right: 12px; max-width: calc(100% - 78px); font-size: 11px; }
+            .kalyn-projects:not(.is-open).is-detail { height: 620px; }
+            .experience-note { padding: 22px; }
+        }
     </style>
 </head>
 <body class="portfolio-page">
@@ -268,12 +308,13 @@
     </div></section>
 
     <section class="work-section" id="work"><div class="site-shell">
-        <div class="work-heading reveal"><div><p class="section-index">02 / THINGS I MADE</p><h2 data-zh="我的项目，不止一种形状。" data-en="My projects take many forms.">我的项目，不止一种形状。</h2></div><div class="work-controls"><p data-zh="从游戏、学习工具到陪伴型软件与个人网站。" data-en="Games, learning tools, companion software and personal websites.">从游戏、学习工具到陪伴型软件与个人网站。</p><div class="stack-actions"><button class="stack-step stack-prev" type="button" aria-label="上一个项目"><i class="fa fa-arrow-left"></i></button><span class="stack-progress"><b>01</b> / 04</span><button class="stack-step stack-next" type="button" aria-label="下一个项目"><i class="fa fa-arrow-right"></i></button><button class="stack-toggle" type="button" aria-expanded="false"><i class="fa fa-th-large" aria-hidden="true"></i><span data-zh="展开全部" data-en="Expand all">展开全部</span></button></div></div></div>
+        <div class="work-heading reveal"><div><p class="section-index">02 / THINGS I MADE</p><h2 data-zh="我的项目，不止一种形状。" data-en="My projects take many forms.">我的项目，不止一种形状。</h2></div><div class="work-controls"><p data-zh="从游戏、学习工具到陪伴型软件与个人网站。" data-en="Games, learning tools, companion software and personal websites.">从游戏、学习工具到陪伴型软件与个人网站。</p><div class="stack-actions"><button class="stack-step stack-prev" type="button" aria-label="上一个项目"><i class="fa fa-arrow-left"></i></button><span class="stack-progress"><b>01</b> / 05</span><button class="stack-step stack-next" type="button" aria-label="下一个项目"><i class="fa fa-arrow-right"></i></button><button class="stack-toggle" type="button" aria-expanded="false"><i class="fa fa-th-large" aria-hidden="true"></i><span data-zh="展开全部" data-en="Expand all">展开全部</span></button></div></div></div>
         <div class="project-grid kalyn-projects">
             <article class="project-card reveal" tabindex="0" data-project="1" data-link="https://qisheg.netlify.app"><div class="project-media project-art game-art"><img class="project-image" src="site/images/work/qisheng.jpg" alt="栖声"/><span class="project-number">01</span></div><div class="project-info"><div><h3>栖声</h3><p>白噪音合成器</p></div><span>AUDIO</span></div></article>
-            <article class="project-card reveal" tabindex="0" data-project="2" data-link="https://baicaoxing12.netlify.app/"><div class="project-media project-art game-art"><img class="project-image" src="site/images/work/baicaoxing.jpg" alt="百草行"/><span class="project-number">02</span></div><div class="project-info"><div><h3>百草行</h3><p>古风田园游戏</p></div><span>GAME</span></div></article>
-            <article class="project-card reveal" tabindex="0" data-project="3"><div class="project-media project-art game-art"><div class="project-media-grid"><div class="thumb"><img src="site/images/work/game-1-find.jpg" alt="Find the Culprit"/></div><div class="thumb"><img src="site/images/work/game-2-tile.jpg" alt="Tile Match"/></div><div class="thumb"><img src="site/images/work/game-3-cat.jpg" alt="Find the Cats"/></div><div class="thumb"><img src="site/images/work/game-4-tile3.jpg" alt="Tile Journey"/></div><div class="thumb"><img src="site/images/work/game-5-marble.jpg" alt="Marble Run"/></div><div class="thumb thumb-more"><strong>+1</strong><span>MORE</span></div></div><span class="project-number">03</span></div><div class="project-info"><div><h3>休闲游戏集</h3><p>实习项目 · 5 款休闲游戏</p></div><span>GAME</span></div></article>
-            <article class="project-card reveal" tabindex="0" data-project="4"><div class="project-media project-art desktop-art"><img class="project-image" src="site/images/work/momo.jpg" alt="默默桌宠"/><span class="project-number">04</span></div><div class="project-info"><div><h3>默默</h3><p>桌宠软件</p></div><span>DESKTOP</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="2" data-link="https://baicaoxing12.netlify.app/"><div class="project-media project-art game-art"><img class="project-image" src="site/images/work/baicaoxing.jpg" alt="百草行"/><span class="project-number">02</span><p class="project-award" data-zh="腾讯云游戏黑客松 · 全球三等奖" data-en="Tencent Cloud Game Hackathon · Global Third Prize">腾讯云游戏黑客松 · 全球三等奖</p></div><div class="project-info"><div><h3>百草行</h3><p data-zh="古风田园游戏 · 腾讯云游戏黑客松全球三等奖" data-en="A pastoral game · Global Third Prize, Tencent Cloud Game Hackathon">古风田园游戏 · 腾讯云游戏黑客松全球三等奖</p></div><span>GAME</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="3" data-share-url="https://pan.baidu.com/s/1779gQjcV82JCdbDW36z1MA?pwd=jbei" data-share-code="jbei" data-share-file="ShanheMessenger-Windows-20261015-API-Test.zip"><div class="project-media project-art game-art"><img class="project-image" src="site/images/work/shanhe-xinshi.png" alt="山河信使游戏实机截图：香格里拉地图与探索任务" loading="lazy"/><span class="project-number">03</span><p class="project-cover-title" data-zh="山河信使" data-en="Shanhe Xinshi">山河信使</p><p class="project-copy-hint" data-zh="点击复制下载链接 · Windows" data-en="Click to copy download link · Windows">点击复制下载链接 · Windows</p></div><div class="project-info"><div><h3 data-zh="山河信使" data-en="Shanhe Xinshi">山河信使</h3><p data-zh="3D 探索游戏 · 5 张地图 · AI NPC 互动小游戏" data-en="3D exploration · 5 maps · AI NPC mini-games">3D 探索游戏 · 5 张地图 · AI NPC 互动小游戏</p><p data-zh="与西安交通大学民族研究学院、软件学院合作开发。" data-en="Developed in collaboration with the ethnic studies and software schools at Xi’an Jiaotong University.">与西安交通大学民族研究学院、软件学院合作开发。</p><p class="project-download-note" data-zh="Windows 试玩版 · 点击卡片自动复制网盘链接与提取码 jbei" data-en="Windows demo · Click the card to copy the download link and access code jbei">Windows 试玩版 · 点击卡片自动复制网盘链接与提取码 jbei</p></div><span>3D GAME</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="4"><div class="project-media project-art game-art"><div class="project-media-grid"><div class="thumb"><img src="site/images/work/game-1-find.jpg" alt="Find the Culprit"/></div><div class="thumb"><img src="site/images/work/game-2-tile.jpg" alt="Tile Match"/></div><div class="thumb"><img src="site/images/work/game-3-cat.jpg" alt="Find the Cats"/></div><div class="thumb"><img src="site/images/work/game-4-tile3.jpg" alt="Tile Journey"/></div><div class="thumb"><img src="site/images/work/game-5-marble.jpg" alt="Marble Run"/></div><div class="thumb thumb-more"><strong>+1</strong><span>MORE</span></div></div><span class="project-number">04</span></div><div class="project-info"><div><h3>休闲游戏集</h3><p>实习项目 · 5 款休闲游戏</p></div><span>GAME</span></div></article>
+            <article class="project-card reveal" tabindex="0" data-project="5"><div class="project-media project-art desktop-art"><img class="project-image" src="site/images/work/momo.jpg" alt="默默桌宠"/><span class="project-number">05</span></div><div class="project-info"><div><h3>默默</h3><p>桌宠软件</p></div><span>DESKTOP</span></div></article>
             <button class="project-close" type="button" aria-label="关闭项目详情"><i class="fa fa-times"></i></button>
         </div>
     </div></section>
@@ -282,7 +323,10 @@
 
     <section class="life-section" id="life"><div class="site-shell life-layout"><div class="section-heading reveal"><p class="section-index">04 / OFF THE SCREEN</p><h2>屏幕之外，生活正在发生。</h2></div><div class="interest-cloud reveal"><span>旅行 Travel</span><span>写作 Writing</span><span>手工 Crafts</span><span>游戏 Games</span><span>摄影 Photography</span><span>阅读 Reading</span></div><blockquote class="reveal">"我希望这里记录的不只是结果，也有那些路上的灵感、笨拙尝试和真实喜欢。"</blockquote></div></section>
 
-    <section class="experience-section"><div class="site-shell experience-row reveal"><div><p class="section-index">05 / EXPERIENCE</p><h2>一段实习，更多实践。</h2></div><div class="experience-note"><span>INTERNSHIP · 01</span><p>已有一段实习经历，详细内容将在简历整理后补充。</p></div></div></section>
+    <section class="experience-section" id="experience"><div class="site-shell experience-row reveal"><div><p class="section-index">05 / EXPERIENCE</p><h2><span class="experience-heading-line" data-zh="两段实习，" data-en="Two internships.">两段实习，</span><span class="experience-heading-line" data-zh="更多实践。" data-en="More hands-on experience.">更多实践。</span></h2></div><div class="experience-list">
+            <article class="experience-note"><span>INTERNSHIP · 01</span><h3 data-zh="西安开元全盛量化" data-en="Xi’an Kaiyuan Quansheng Quantitative">西安开元全盛量化</h3><p class="experience-role" data-zh="量化研究员实习" data-en="Quantitative Research Intern">量化研究员实习</p><p data-zh="负责因子挖掘、策略搭建与回测，并主导搭建智能体投研链路。" data-en="Research factors, build and backtest strategies, and lead the development of an AI agent workflow for investment research.">负责因子挖掘、策略搭建与回测，并主导搭建智能体投研链路。</p></article>
+            <article class="experience-note"><span>INTERNSHIP · 02</span><h3 data-zh="琥珀创想 · 增长部" data-en="Hupo Chuangxiang · Growth Team">琥珀创想 · 增长部</h3><p class="experience-role" data-zh="AI 互动广告制作实习" data-en="AI Playable Ad Production Intern">AI 互动广告制作实习</p><p data-zh="借助 AI 开发工具制作 HTML5 试玩广告，对接投放、美术与策划，并沉淀可复用的 Prompt 模板和 SOP。" data-en="Create HTML5 playable ads with AI development tools, collaborate with marketing, art and game design teams, and document reusable prompt templates and SOPs.">借助 AI 开发工具制作 HTML5 试玩广告，对接投放、美术与策划，并沉淀可复用的 Prompt 模板和 SOP。</p></article>
+        </div></div></section>
 
     <section class="contact-section" id="contact"><div class="site-shell contact-inner reveal"><p class="section-index">06 / SAY HELLO</p><h2>交换想法，或者一起做点有趣的。</h2><p>关于 AI、项目、游戏，或者旅行途中的好故事，都欢迎来信。</p><a class="contact-link" href="mailto:1522027351@qq.com">1522027351@qq.com</a><br><a class="contact-link contact-github" href="https://github.com/lllkn" target="_blank" rel="noopener"><i class="fa fa-github" aria-hidden="true"></i> github.com/lllkn</a></div></section>
 </main>
@@ -299,7 +343,7 @@
     <script src="site/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="site/js/custom.js" type="text/javascript"></script>
     <script src="site/js/vendor/three.min.js" type="text/javascript"></script>
-    <script src="site/js/portfolio.js" type="text/javascript"></script>
+    <script src="site/js/portfolio.js?v=20261112-share1" type="text/javascript"></script>
 </footer>
 
 </body>

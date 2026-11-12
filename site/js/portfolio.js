@@ -266,6 +266,74 @@
         }, autoplayDuration);
     }
 
+    var shareNotice = null;
+    var shareNoticeTimer = null;
+
+    function showShareNotice(card, copied, shareText) {
+        var isEnglish = document.documentElement.dataset.language === 'en';
+        if (!shareNotice) {
+            shareNotice = document.createElement('div');
+            shareNotice.className = 'share-notice';
+            shareNotice.setAttribute('role', 'status');
+            shareNotice.setAttribute('aria-live', 'polite');
+            document.body.appendChild(shareNotice);
+        }
+        window.clearTimeout(shareNoticeTimer);
+        shareNotice.textContent = '';
+        var message = document.createElement('p');
+        message.textContent = copied
+            ? (isEnglish ? 'Download link and access code copied.' : '网盘链接和提取码已复制。')
+            : (isEnglish ? 'Please copy the download details below.' : '自动复制未成功，请手动复制以下下载信息。');
+        shareNotice.appendChild(message);
+        if (!copied) {
+            var field = document.createElement('textarea');
+            field.value = shareText;
+            field.readOnly = true;
+            field.setAttribute('aria-label', isEnglish ? 'Download details' : '下载链接与提取码');
+            shareNotice.appendChild(field);
+            field.focus();
+            field.select();
+        }
+        var openLink = document.createElement('a');
+        openLink.href = card.getAttribute('data-share-url');
+        openLink.target = '_blank';
+        openLink.rel = 'noopener';
+        openLink.textContent = isEnglish ? 'Open Baidu Netdisk ↗' : '打开百度网盘 ↗';
+        shareNotice.appendChild(openLink);
+        shareNotice.classList.add('is-visible');
+        if (copied) shareNoticeTimer = window.setTimeout(function () {
+            shareNotice.classList.remove('is-visible');
+        }, 6000);
+    }
+
+    async function copyProjectShare(card) {
+        var shareText = '通过网盘分享的文件：' + card.getAttribute('data-share-file')
+            + '\n链接: ' + card.getAttribute('data-share-url')
+            + '\n提取码: ' + card.getAttribute('data-share-code');
+        var copied = false;
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(shareText);
+                copied = true;
+            }
+        } catch (error) { /* Try the legacy copy path if clipboard access is denied. */ }
+        if (!copied) {
+            var activeElement = document.activeElement;
+            var field = document.createElement('textarea');
+            field.value = shareText;
+            field.readOnly = true;
+            field.style.cssText = 'position:fixed;left:-9999px;top:0;';
+            document.body.appendChild(field);
+            try {
+                field.select();
+                copied = document.execCommand('copy');
+            } catch (error) { /* Show selectable download details below. */ }
+            field.remove();
+            if (activeElement && activeElement.focus) activeElement.focus({ preventScroll: true });
+        }
+        showShareNotice(card, copied, shareText);
+    }
+
     function setProjectDetail(open) {
         if (!projectStack) return;
         projectStack.classList.toggle('is-detail', open);
@@ -298,6 +366,15 @@
         projectCards.forEach(function (card, index) {
             function openOrDetail() {
                 var link = card.getAttribute('data-link');
+                if (card.hasAttribute('data-share-url')) {
+                    // Copy during the click/keyboard gesture, before any carousel delay.
+                    copyProjectShare(card);
+                    if (!projectStack.classList.contains('is-open')) {
+                        goToProject(index);
+                        setProjectDetail(true);
+                    }
+                    return;
+                }
                 if (index !== activeProject) {
                     if (link) {
                         /* 有链接：保持“先滑到中间再打开链接” */
@@ -319,12 +396,12 @@
                 setProjectDetail(true);
             }
             card.addEventListener('click', function () {
-                if (projectStack.classList.contains('is-open')) return;
+                if (projectStack.classList.contains('is-open') && !card.hasAttribute('data-share-url')) return;
                 if (wasJustDragging) return;
                 openOrDetail();
             });
             card.addEventListener('keydown', function (event) {
-                if ((event.key === 'Enter' || event.key === ' ') && !projectStack.classList.contains('is-open')) {
+                if ((event.key === 'Enter' || event.key === ' ') && (!projectStack.classList.contains('is-open') || card.hasAttribute('data-share-url'))) {
                     event.preventDefault();
                     openOrDetail();
                 }
